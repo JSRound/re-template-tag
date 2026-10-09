@@ -1,45 +1,40 @@
 {
   "name": "re-template-tag",
-  "version": "2.0.1",
+  "version": "3.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "build": "babel esm --out-dir cjs",
-    "prepublishOnly": "npm run build",
-    "test": "ava"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "build": "tsc -p tsconfig.build.json",
+    "pretest": "npm run build",
+    "test": "node --test",
+    "prepare": "npm run build"
   },
   "author": "Axel Rauschmayer",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rauschma/re-template-tag.git"
+    "url": "git+https://github.com/JSRound/re-template-tag.git"
   },
-  "//": [
-    "babel-cli: needed for building",
-    "babel-register: needed for testing via AVA"
-  ],
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "ava": "^0.21.0",
-    "babel-preset-env": "^1.5.1",
-    "babel-register": "^6.24.1"
-  },
-  "module": "./esm/index.js",
-  "main": "./cjs/index.js",
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ]
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.4",
+    "eslint": "^10.12.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.1"
   }
 }

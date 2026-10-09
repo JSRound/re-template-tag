@@ -24,9 +24,20 @@ const RE_DATE = re`/^${RE_YEAR}-${RE_MONTH}-${RE_DAY}$/u`;
 RE_DATE.test('2017-01-23'); // true
 ```
 
+## Checks
+
+```sh
+npm run typecheck
+npm run lint
+npm run build
+npm test
+```
+
+`npm test` builds first, then the unit tests import `dist/index.js`.
+
 ## More information
 
-* Take a look at [the unit tests](https://github.com/rauschma/re-template-tag/blob/master/test/index_test.js).
+* Take a look at [the unit tests](https://github.com/JSRound/re-template-tag/blob/master/test/index.test.js).
 * Check out [the blog post on re-template-tag](http://2ality.com/2017/07/re-template-tag.html).
 
 ## Related work
