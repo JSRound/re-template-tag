@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { test } from 'node:test';
-import { quoteText, re } from '@jsround/re-template-tag';
+import { quoteText, re } from '@jesusredondo/re-template-tag';
 
 const require = createRequire(import.meta.url);
 
@@ -141,7 +141,7 @@ test('a string substitution with a hyphen under the u flag', () => {
 });
 
 test('require() resolves the package through exports', () => {
-  const required = require('@jsround/re-template-tag');
+  const required = require('@jesusredondo/re-template-tag');
   assert.equal(required.re, re);
   assert.equal(required.quoteText, quoteText);
 });
