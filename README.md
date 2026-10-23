@@ -1,14 +1,14 @@
-# @jesusredondo/re-template-tag: easily compose regular expressions
+# @jround/re-template-tag: easily compose regular expressions
 
 This package provides the template tag `re` for composing regular expressions.
 
 It is a TypeScript fork of [rauschma/re-template-tag](https://github.com/rauschma/re-template-tag),
-published as `@jesusredondo/re-template-tag`. The unscoped `re-template-tag` on npm is the original 2.0.1.
+published as `@jround/re-template-tag`. The unscoped `re-template-tag` on npm is the original 2.0.1.
 
 ## Install
 
 ```sh
-npm install @jesusredondo/re-template-tag
+npm install @jround/re-template-tag
 ```
 
 Requirements:
@@ -29,7 +29,7 @@ re`/abc/gu`
 ## Composing regular expressions
 
 ```js
-import {re} from '@jesusredondo/re-template-tag';
+import {re} from '@jround/re-template-tag';
 
 const RE_YEAR = /([0-9]{4})/;
 const RE_MONTH = /([0-9]{2})/;
@@ -48,7 +48,7 @@ Any other substitution throws `Error`.
 or a character class. `re` applies it to every string substitution.
 
 ```js
-import {quoteText} from '@jesusredondo/re-template-tag';
+import {quoteText} from '@jround/re-template-tag';
 
 quoteText('1+1=2'); // '1\\+1\\x3d2'
 ```
