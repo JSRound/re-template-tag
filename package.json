@@ -1,5 +1,5 @@
 {
-  "name": "@jsround/re-template-tag",
+  "name": "@jesusredondo/re-template-tag",
   "version": "3.0.1",
   "description": "Template tag that composes regular expressions from RegExp and escaped string fragments.",
   "keywords": [

@@ -2,8 +2,8 @@
 
 ## 3.0.1
 
-* Published to npm as `@jsround/re-template-tag`. The unscoped `re-template-tag` belongs to the
-  original package, so imports change from `re-template-tag` to `@jsround/re-template-tag`.
+* Published to npm as `@jesusredondo/re-template-tag`. The unscoped `re-template-tag` belongs to the
+  original package, so imports change from `re-template-tag` to `@jesusredondo/re-template-tag`.
 * The `exports` entry uses the `default` condition, so `require()` on Node.js 24 loads the package.
 * Fix: a string substitution containing `- = ! < > :` no longer throws `Invalid escape` under the
   `u` or `v` flag, as in `` re`/${'2017-01'}/u` ``. `quoteText` now writes those six characters
