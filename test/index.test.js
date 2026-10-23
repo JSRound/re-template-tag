@@ -1,7 +1,16 @@
-// Imports the built module. `npm test` runs `pretest`, which builds first.
+// Imports the package by its own name, so the `exports` map and the built `dist/` are what is
+// tested. `npm test` runs `pretest`, which builds first.
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
 import { test } from 'node:test';
-import { re } from '../dist/index.js';
+import { quoteText, re } from '@jsround/re-template-tag';
+
+const require = createRequire(import.meta.url);
+
+const SYNTAX_CHARACTERS = '\\^$.*+?()[]{}|';
+const HEX_ESCAPES = { '=': '\\x3d', '!': '\\x21', '<': '\\x3c', '>': '\\x3e', ':': '\\x3a', '-': '\\x2d' };
+const METACHARACTERS = SYNTAX_CHARACTERS + Object.keys(HEX_ESCAPES).join('');
+const FLAG_MODES = ['', 'u', 'v'];
 
 test('Composing regular expressions', () => {
   const RE_YEAR = /([0-9]{4})/;
@@ -89,4 +98,50 @@ test('a non-string non-RegExp substitution', () => {
     name: 'Error',
     message: 'Illegal substitution: 1',
   });
+});
+
+test('quoteText backslash-escapes syntax characters', () => {
+  for (const character of SYNTAX_CHARACTERS) {
+    assert.equal(quoteText(character), `\\${character}`);
+  }
+});
+
+test('quoteText hex-escapes characters that u and v mode reject after a backslash', () => {
+  for (const [character, escaped] of Object.entries(HEX_ESCAPES)) {
+    assert.equal(quoteText(character), escaped);
+  }
+});
+
+test('quoteText leaves other characters unchanged', () => {
+  assert.equal(quoteText('abc 123_/'), 'abc 123_/');
+  assert.equal(quoteText(''), '');
+});
+
+test('quoteText output matches its input literally with any flags', () => {
+  const text = `a${METACHARACTERS}z`;
+  for (const flags of FLAG_MODES) {
+    const regexp = new RegExp(`^${quoteText(text)}$`, flags);
+    assert.equal(regexp.test(text), true, `flags "${flags}"`);
+    assert.equal(regexp.test('az'), false, `flags "${flags}"`);
+  }
+});
+
+test('quoteText output is literal inside a character class with any flags', () => {
+  for (const flags of FLAG_MODES) {
+    const regexp = new RegExp(`^[${quoteText('^a-z]')}]+$`, flags);
+    assert.equal(regexp.test('^a-z]'), true, `flags "${flags}"`);
+    assert.equal(regexp.test('b'), false, `flags "${flags}"`);
+  }
+});
+
+test('a string substitution with a hyphen under the u flag', () => {
+  const regexp = re`/^${'2017-01'}$/u`;
+  assert.equal(regexp.test('2017-01'), true);
+  assert.equal(regexp.test('2017x01'), false);
+});
+
+test('require() resolves the package through exports', () => {
+  const required = require('@jsround/re-template-tag');
+  assert.equal(required.re, re);
+  assert.equal(required.quoteText, quoteText);
 });

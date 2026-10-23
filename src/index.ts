@@ -87,7 +87,27 @@ function transformRaw(text: string): string {
 
 /**
  * Escape every regex metacharacter, including inside parentheses or a character class.
+ * The result is valid with any flags, including `u` and `v`.
  */
 export function quoteText(text: string): string {
-  return text.replace(/[\\^$.*+?()[\]{}|=!<>:-]/g, '\\$&');
+  return text.replace(/[\\^$.*+?()[\]{}|=!<>:-]/g, escapeCharacter);
+}
+
+/** Characters that `u` and `v` mode accept after a backslash. */
+const SYNTAX_CHARACTER = /^[\\^$.*+?()[\]{}|]$/;
+
+function escapeCharacter(character: string): string {
+  if (isSyntaxCharacter(character)) {
+    return `\\${character}`;
+  }
+  return hexEscape(character);
+}
+
+function isSyntaxCharacter(character: string): boolean {
+  return SYNTAX_CHARACTER.test(character);
+}
+
+/** `-` becomes `\x2d`: a literal in every flag mode, never a range inside a character class. */
+function hexEscape(character: string): string {
+  return `\\x${character.charCodeAt(0).toString(16).padStart(2, '0')}`;
 }

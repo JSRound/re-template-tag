@@ -1,6 +1,15 @@
 {
-  "name": "re-template-tag",
-  "version": "3.0.0",
+  "name": "@jsround/re-template-tag",
+  "version": "3.0.1",
+  "description": "Template tag that composes regular expressions from RegExp and escaped string fragments.",
+  "keywords": [
+    "regexp",
+    "regular-expression",
+    "template-tag",
+    "tagged-template"
+  ],
+  "homepage": "https://github.com/JSRound/re-template-tag#readme",
+  "bugs": "https://github.com/JSRound/re-template-tag/issues",
   "type": "module",
   "engines": {
     "node": ">=24"
@@ -10,10 +19,11 @@
     "README.md",
     "LICENSE"
   ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
@@ -22,13 +32,21 @@
     "build": "tsc -p tsconfig.build.json",
     "pretest": "npm run build",
     "test": "node --test",
+    "check:tarball": "node scripts/check-tarball.mjs",
     "prepare": "npm run build"
   },
   "author": "Axel Rauschmayer",
+  "contributors": [
+    "Jesus Redondo <github@jesusredondo.com>"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JSRound/re-template-tag.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -14,16 +14,21 @@ concurrency:
 
 jobs:
   check:
-    name: typecheck, lint, and build
+    name: check (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # 24 is the engines floor and .nvmrc; current is the newest release engines allows.
+        node: ['24', 'current']
     steps:
       - name: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: setup Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version-file: .nvmrc
+          node-version: ${{ matrix.node }}
           cache: npm
       - name: install
         run: npm ci
@@ -35,3 +40,5 @@ jobs:
         run: npm run build
       - name: test
         run: npm test
+      - name: install the packed tarball and load it by name
+        run: npm run check:tarball
